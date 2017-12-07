@@ -84,6 +84,10 @@ class InvitationViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # check if hash pertains to an invitation
         invitation = get_object_or_404(Invitation, pk=pk)
+        # allow only if it is pending
+        if invitation.status != Invitation.STATUS_PENDING:  # TODO: test
+            errors = {'detail': 'Only pending invites can be accepted'}
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=errors)
         invitation.accept()
         serializer = self.serializer_class(instance=invitation)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
