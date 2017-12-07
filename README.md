@@ -58,3 +58,11 @@ To test e-mail sent without setting up a SMTP server ([source](https://stackover
 ```shell
 python3 -m smtpd -n -c DebuggingServer localhost:1025
 ```
+
+### Endpoints
+
+* `admin/`
+* `api/`
+  *  `api/clients`
+  *  `api/doctors`
+  *  `api/invitations`
