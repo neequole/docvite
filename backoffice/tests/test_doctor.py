@@ -3,17 +3,19 @@ from rest_framework.test import APITestCase
 
 from backoffice.models import Client, Doctor
 
+from .decorators import needs_doctor_login, needs_client_login
+
 
 class DoctorTests(APITestCase):
     API_URL = '/api/doctors'
     LOGIN_URL = '{}/login/'.format(API_URL)
     LOGOUT_URL = '{}/logout/'.format(API_URL)
-    VALID_DOCTOR = {'username': 'foo', 'password': 'foo'}
-    INVALID_DOCTOR = {'username': 'bar', 'password': 'bar'}
+    DOCTOR_ACCOUNT = {'username': 'foo', 'password': 'foo'}
+    CLIENT_ACCOUNT = {'username': 'bar', 'password': 'bar'}
 
     def setUp(self):
-        Doctor.objects.create_user(**self.VALID_DOCTOR)
-        Client.objects.create_user(**self.INVALID_DOCTOR)
+        self.client.doctor = Doctor.objects.create_user(**self.DOCTOR_ACCOUNT)
+        self.client.client = Client.objects.create_user(**self.CLIENT_ACCOUNT)
 
     def test_invalid_login(self):
         """ Ensure we return an authentication error """
@@ -24,16 +26,29 @@ class DoctorTests(APITestCase):
 
     def test_client_login(self):
         """ Ensure we check the user is a Doctor """
-        response = self.client.post(self.LOGIN_URL, self.INVALID_DOCTOR,
+        response = self.client.post(self.LOGIN_URL, self.CLIENT_ACCOUNT,
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_doctor_login(self):
-        response = self.client.post(self.LOGIN_URL, self.VALID_DOCTOR,
+        response = self.client.post(self.LOGIN_URL, self.DOCTOR_ACCOUNT,
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_logout(self):
-        self.client.login(**self.VALID_DOCTOR)
+    @needs_client_login
+    def test_client_logout(self):
+        """ Ensure we check the session user is a Doctor """
+        response = self.client.post(self.LOGOUT_URL, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    @needs_doctor_login
+    def test_doctor_logout(self):
         response = self.client.post(self.LOGOUT_URL, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    @needs_doctor_login
+    def test_invitations(self):
+        url = '{}/{}/invitations/'.format(self.API_URL, self.client.doctor.pk)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.data, list)

@@ -128,3 +128,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ]
 }
+
+# Setting only for testing or development
+
+# Credit to: https://stackoverflow.com/questions/4642011/test-sending-email-without-email-server
+# python3 -m smtpd -n -c DebuggingServer localhost:1025
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+
+WEBSITE_ORIGIN = 'http://127.0.0.1:8000'
