@@ -25,7 +25,7 @@ SECRET_KEY = 'n0ls%m=iz^ifb-z10l8gmv2samt^thrpc2h=!#nak4%_0@a$^8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'corsheaders',
     'rest_framework',
     'backoffice',
 ]
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -124,6 +126,9 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'backoffice.User'
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ]
@@ -137,3 +142,8 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
 WEBSITE_ORIGIN = 'http://127.0.0.1:8000'
+#
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:8080',
+#     '127.0.0.1:8080',
+# )
