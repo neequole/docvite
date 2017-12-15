@@ -14,7 +14,7 @@
           </v-toolbar>
           <v-divider></v-divider>
           <v-list dense class="pt-0">
-            <v-list-tile v-for="item in items" :key="item" @click="">
+            <v-list-tile v-for="item in items" :key="item" @click="logout()">
               <v-list-tile-content>
                 <v-list-tile-title>{{ item }}</v-list-tile-title>
               </v-list-tile-content>

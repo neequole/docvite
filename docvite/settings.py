@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'corsheaders',
+    'corsheaders',
     'rest_framework',
     'backoffice',
 ]
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -142,8 +142,9 @@ EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
 WEBSITE_ORIGIN = 'http://127.0.0.1:8000'
-#
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost:8080',
-#     '127.0.0.1:8080',
-# )
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+    '127.0.0.1:8080',
+)
+CORS_ALLOW_CREDENTIALS = True

@@ -1,20 +1,20 @@
 <template>
-    <v-container text-xs-center id="login">
-        <v-layout column wrap>
-            <v-flex xs10>
-                <v-card>
-                    <form @submit.prevent="submit()">
+    <v-container fill-height id="login">
+        <v-layout align-center justify-center>
+            <v-card>
+                <form @submit.prevent="submit()">
+                    <v-layout column wrap class="ma-2">
                         <h2>Welcome back to Docvite!</h2>
                         <input type="text" placeholder="Username" v-model="username" required />
                         <input type="password" placeholder="Password" v-model="password" required />
                         <button type="submit">Login</button>
                         <div>{{ error }}</div>
+                    </v-layout>
                     </form>
                 </v-card>
-            </v-flex>
-        </v-layout>
-    </v-container>
-  </template>
+            </v-layout>
+        </v-container>
+</template>
 
 <script>
     export default {
@@ -40,9 +40,4 @@
     }
 </script>
 <style scoped>
-    #login {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-    }
 </style>

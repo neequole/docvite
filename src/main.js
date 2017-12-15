@@ -4,19 +4,23 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
-// import cookie from 'cookie'
+import VueCookie from 'vue-cookie'
+
+import config from './config'
+
 
 Vue.use(Vuetify)
+Vue.use(VueCookie)
 Vue.config.productionTip = false
-// Vue.http.interceptors.push((request, next) => {
-//     request.headers.set('x-csrftoken', cookie.parse(document.cookie)['csrftoken'])
-//     next()
-// })
+Vue.http.interceptors.push(function (request, next) {
+    request.headers.set('x-csrftoken', this.$cookie.get('csrftoken'))
+    request.credentials = 'true'
+    next()
+})
 
-const API_URL = 'http://localhost:8000/api'
-Vue.prototype.$DOCTOR_API_URL = API_URL + '/doctors/'
-Vue.prototype.$CLIENT_API_URL = API_URL + '/clients/'
-Vue.prototype.$INVITATION_API_URL = API_URL + '/invitation/'
+Vue.prototype.$DOCTOR_API_URL = config.API_URL + '/doctors/'
+Vue.prototype.$CLIENT_API_URL = config.API_URL + '/clients/'
+Vue.prototype.$INVITATION_API_URL = config.API_URL + '/invitation/'
 
 
 /* eslint-disable no-new */
