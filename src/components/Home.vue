@@ -48,8 +48,7 @@
         },
         methods: {
             logout() {
-                var url = this.$DOCTOR_API_URL + 'logout/'
-                this.$http.post(url).then(response => {
+                this.$http.post('doctors/logout/').then(response => {
                     localStorage.removeItem('user')
                     this.$router.push('/login')
                 })

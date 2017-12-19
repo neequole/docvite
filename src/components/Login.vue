@@ -27,10 +27,8 @@
         },
         methods: {
             submit() {
-                var url = this.$DOCTOR_API_URL + 'login/'
                 var requestData = {username: this.username, password: this.password}
-                this.$http.post(url, requestData).then(response => {
-                    localStorage.setItem('user', response.data)
+                this.$http.post('doctors/login/', requestData).then(response => {
                     this.$router.push('/')
                 }, response => {
                     this.error = response.data.detail

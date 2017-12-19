@@ -6,22 +6,18 @@ import router from './router'
 import Vuetify from 'vuetify'
 import VueCookie from 'vue-cookie'
 
-import config from './config'
+import {apiUrl} from './config'
 
 
 Vue.use(Vuetify)
 Vue.use(VueCookie)
 Vue.config.productionTip = false
+Vue.http.options.root = apiUrl
 Vue.http.interceptors.push(function (request, next) {
-    request.headers.set('x-csrftoken', this.$cookie.get('csrftoken'))
+    request.headers.set('x-csrftoken', Vue.cookie.get('csrftoken'))
     request.credentials = 'true'
     next()
 })
-
-Vue.prototype.$DOCTOR_API_URL = config.API_URL + '/doctors/'
-Vue.prototype.$CLIENT_API_URL = config.API_URL + '/clients/'
-Vue.prototype.$INVITATION_API_URL = config.API_URL + '/invitation/'
-
 
 /* eslint-disable no-new */
 new Vue({

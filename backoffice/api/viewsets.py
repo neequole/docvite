@@ -42,6 +42,12 @@ class DoctorViewSet(viewsets.ModelViewSet):
         logout(request)
         return Response(status=status.HTTP_200_OK)
 
+    @list_route(url_path='me', permission_classes=(DoctorOnly,))  # TODO: test
+    def get_session_user(self, request):
+        doctor = Doctor.objects.get(pk=request.user.pk)
+        serializer = self.get_serializer(instance=doctor)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+
     @detail_route(url_path='invitations')
     def get_invitations(self, request, pk):
         doctor = self.get_object()
