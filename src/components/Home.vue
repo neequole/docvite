@@ -49,7 +49,6 @@
         methods: {
             logout() {
                 this.$http.post('doctors/logout/').then(response => {
-                    localStorage.removeItem('user')
                     this.$router.push('/login')
                 })
 
