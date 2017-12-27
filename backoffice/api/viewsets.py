@@ -15,6 +15,7 @@ from ..models import Client, Doctor, Invitation
 from ..permissions import DoctorOnly
 
 # TODO: Need to review permission for basic endpoints
+# TODO: Pagination
 
 
 class DoctorViewSet(viewsets.ModelViewSet):

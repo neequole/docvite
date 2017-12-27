@@ -12,58 +12,52 @@
           </v-toolbar>
           <v-divider></v-divider>
           <v-list dense class="pt-0">
-            <v-list-tile>
+            <v-list-tile v-for="link in links" :key="link.name" @click="navigationClicked(link)">
               <v-list-tile-content>
-                <v-list-tile-title>Clients</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Tests</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Resources</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Profile</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>Settings</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile @click="logout">
-              <v-list-tile-content>
-                <v-list-tile-title>Logout</v-list-tile-title>
+                <v-list-tile-title>{{ link.text }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
         </v-navigation-drawer>
     <v-container fluid fill-height>
-      {{ msg }}
+      <clients-container v-if="activeLink == 'client'"></clients-container>
+      <div v-else>{{ activeLink }}</div>
     </v-container>
   </v-container>
 </template>
 
 <script>
+  import Clients from '@/components/Clients'
     export default {
         data () {
             return {
-                msg: 'Welcome to Your Vue.js App',
+                activeLink: 'client',
+                links: [
+                    {name: 'client', text: 'Clients',},
+                    {name: 'test', text: 'Tests',},
+                    {name: 'resource', text: 'Resources',},
+                    {name: 'profile', text: 'Profile',},
+                    {name: 'setting', text: 'Settings',},
+                    {name: 'logout', text: 'Logout',},
+                ],
             }
         },
         methods: {
             logout() {
                 this.$http.post('doctors/logout/').then(response => {
+                    localStorage.removeItem('user')
                     this.$router.push('/login')
                 })
 
+            },
+            navigationClicked(link) {
+                this.activeLink = link.name
+                if(link.name == 'logout') this.logout()
+                else console.log('test')
             }
+        },
+        components: {
+            'clients-container': Clients,
         }
     }
 </script>

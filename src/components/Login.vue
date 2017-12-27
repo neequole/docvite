@@ -29,6 +29,7 @@
             submit() {
                 var requestData = {username: this.username, password: this.password}
                 this.$http.post('doctors/login/', requestData).then(response => {
+                    localStorage.setItem('user', JSON.stringify(response.data))
                     this.$router.push('/')
                 }, response => {
                     this.error = response.data.detail

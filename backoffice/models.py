@@ -8,7 +8,9 @@ from itsdangerous import URLSafeSerializer, base64_encode, base64_decode
 
 
 class User(AbstractUser):
-    pass
+    @property
+    def fullname(self):
+        return '{} {}'.format(self.first_name, self.last_name)
 
 
 class Doctor(User):
@@ -45,6 +47,9 @@ class Invitation(models.Model):
     is_sent = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['created',]
 
     @classmethod
     def send(cls, requester, client):

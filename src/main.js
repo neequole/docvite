@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import VueCookie from 'vue-cookie'
+import moment from 'moment'
 
 import {apiUrl} from './config'
 
@@ -18,6 +19,8 @@ Vue.http.interceptors.push(function (request, next) {
     request.credentials = 'true'
     next()
 })
+Vue.prototype.moment = moment
+
 
 /* eslint-disable no-new */
 new Vue({
