@@ -31,6 +31,7 @@
             </v-card>
         </v-flex>
         <!-- Invite client dialog -->
+        <!-- TODO: Move as component -->
         <v-dialog v-model="inviteDialog" max-width="500px">
             <v-card>
                 <v-form v-model="valid" ref="form" lazy-validation>
@@ -52,7 +53,8 @@
                 </v-form>
             </v-card>
       </v-dialog>
-      <!-- snackbar -->
+        <!-- snackbar -->
+        <!-- Move as component -->
         <v-snackbar
             :timeout="timeout"
             :bottom="true"
