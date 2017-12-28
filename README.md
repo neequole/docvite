@@ -39,10 +39,16 @@ pip install -r requirements.txt
 ./manage.py migrate
 ```
 
-* Run
+* Run Django server
 
 ```shell
 ./manage.py runserver
+```
+
+* Run Vue
+
+```shell
+npm run dev
 ```
 
 ### Testing
