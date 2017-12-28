@@ -41,7 +41,6 @@
                       <v-text-field label="E-mail"
                                     v-model="email"
                                     :rules="emailRules"
-                                    :error-messages="emailErrors"
                                     required>
                       </v-text-field>
                   </v-card-text>
@@ -53,6 +52,13 @@
                 </v-form>
             </v-card>
       </v-dialog>
+      <!-- snackbar -->
+        <v-snackbar
+            :timeout="timeout"
+            :bottom="true"
+            v-model="snackbar">
+            {{ snackbarText }}
+        </v-snackbar>
     </v-layout>
 </template>
 
@@ -69,6 +75,9 @@
                 ],
                 emailErrors: [],
                 valid: false,
+                snackbar: false,
+                snackbarText: '',
+                timeout: 6000,
             }
         },
         methods: {
@@ -84,11 +93,14 @@
             sendInvitation() {
                 var data = {'email': this.email}
                 this.$http.post('clients/invite/', data).then(response => {
+                    this.snackbarText = 'Invited'
+                    this.snackbar = true
                     this.emailErrors = []
                     this.inviteDialog = false
                     this.getInvitations()
                 }, response => {
-                    this.emailErrors.push(response.data.email) // TODO: clear when dialog is closed
+                    this.snackbarText = response.data.email
+                    this.snackbar = true
                 })
             }
         },
